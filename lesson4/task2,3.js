@@ -21,8 +21,9 @@ let myBascket = {
     },
 
     getSumOfPrices() {
-        this.bascket.reduce((item, nextItem) =>
-            item + nextItem)
+        let res = this.bascket.reduce((item, nextItem) =>
+            item.price + nextItem.price)
+        return res
     }
 };
 
@@ -62,3 +63,4 @@ cola.getPrice();
 myBascket.putProductInShelf(banan);
 myBascket.putProductInShelf(cola);
 myBascket.getNumberOfProductds();
+console.log(myBascket.getSumOfPrices());

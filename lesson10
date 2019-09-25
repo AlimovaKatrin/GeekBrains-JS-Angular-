@@ -1,0 +1,224 @@
+/ Variables to use
+const catalog = [];
+const basket = [];
+const emailReg = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}/g;
+const phoneReg = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+const priceReg = /(\d)(?=(\d{3})+(\D|$))/g
+
+const $cardDesk = document.createElement('div');
+$cardDesk.className = 'card-columns';
+document.body.appendChild($cardDesk);
+
+const $nav = document.getElementsByClassName('navbar navbar-dark bg-dark')[0]
+
+const $bascket = document.createElement('button');
+$bascket.className = 'btn btn-outline-info'
+$bascket.innerText = `0 items in Bascket`;
+$nav.appendChild($bascket)
+
+class Person {
+  constructor({ ...params }) {
+    this.name = params.name,
+      this.price = params.price,
+      this.address = params.address,
+      this.phone = params.phone
+  }
+};
+
+function personGenerator(obj) {
+  let priceForPerson = Math.ceil(Math.random() * (1999999 - 200) + 200)
+  let newPerson = new Person({
+    name: obj.name,
+    price: priceForPerson,
+    address: `${obj.address.city}, ${obj.address.street}`,
+    phone: obj.phone
+  })
+  cardRender(newPerson, $cardDesk);
+  return newPerson
+};
+
+function cardRender(item, parent) {
+
+  const $cardBorder = document.createElement('div');
+  $cardBorder.className = 'card border-dark mb-3';
+  parent.appendChild($cardBorder);
+
+  const $card = document.createElement('div');
+  $card.className = 'card-body';
+  $cardBorder.appendChild($card);
+
+  const $name = document.createElement('h5');
+  $name.className = 'card-title';
+  $name.innerText = item.name;
+
+  const $price = document.createElement('span');
+  $price.className = 'card-subtitle mb-2 text-muted'
+  $price.innerText = item.price + ' $';
+
+  const $address = document.createElement('p');
+  $address.className = 'card-text'
+  $address.innerText = 'Address: ' + item.address;
+
+  const $buttonAdd = document.createElement('button')
+  if (parent === $cardDesk) {
+    $buttonAdd.className = 'btn btn-info';
+    $buttonAdd.innerText = "Buy"
+    $buttonAdd.addEventListener('click', (e) => {
+      basket.push(item)
+      $bascket.innerText = `${basket.length} items in Bascket `
+    })
+  } else {
+    $buttonAdd.className = 'btn btn-danger';
+    $buttonAdd.innerText = "Delete"
+    $buttonAdd.addEventListener('click', (e) => {
+      basket.splice(basket.indexOf(item), 1)
+      $bascket.innerText = `${basket.length} items in Bascket `
+      $cardBorder.removeChild($card);
+
+    })
+  }
+
+  $card.appendChild($name)
+  $card.appendChild($price)
+  $card.appendChild($address)
+  $card.appendChild($buttonAdd)
+};
+
+function makeAnOrderForm(basket) {
+  const $form = document.createElement('form');
+  const price = 0;
+  if (basket.length === 1) {
+    price = basket[0].price
+  } else if (basket.length > 1) {
+    price = basket.reduce((a, b) => {
+      return a.price + b.price
+    })
+  }
+  const $info = document.createElement('div');
+  $info.className = '';
+  $info.innerText = `Your ${basket.length} items, for 
+  ${price.toString().replace(priceReg, '$1 ')} dollars`
+  $form.appendChild($info);
+
+  const $formGroup = document.createElement('div');
+  $formGroup.className = 'form-group';
+  $form.appendChild($formGroup);
+
+  const $input = document.createElement('input');
+  $input.className = 'form-control';
+  $input.setAttribute('placeholder', 'name@example.com');
+  $formGroup.appendChild($input);
+  $input.addEventListener('keyup', e => {
+    if (e.target.value.match(emailReg)) {
+      console.log($input.classList);
+      $input.className = 'form-control is-valid'
+    } else {
+      $input.className = 'form-control is-invalid'
+    }
+  })
+  const $inputPhone = document.createElement('input');
+  $inputPhone.className = 'form-control';
+  $inputPhone.setAttribute('placeholder', '000-000-00');
+  $formGroup.appendChild($inputPhone);
+  $inputPhone.addEventListener('keyup', e => {
+    if (e.target.value.match(phoneReg)) {
+      $inputPhone.className = 'form-control is-valid'
+    } else {
+      console.log($inputPhone.classList);
+      $inputPhone.className = 'form-control is-invalid'
+    }
+  })
+
+  return $form
+}
+
+// --------------------
+fetch('https://api.chucknorris.io/jokes/random')
+  .then(response => response.json())
+  .then(json => {
+    const $funblock = document.createElement('div');
+    $funblock.className = 'navbar-brand';
+    $nav.appendChild($funblock)
+
+    const $chucknorissIcon = document.createElement('img');
+    $chucknorissIcon.setAttribute('src', json.icon_url);
+    $funblock.appendChild($chucknorissIcon);
+
+    const $chucknorissJoke = document.createElement('p');
+    $chucknorissJoke.className = 'textJoke'
+    $chucknorissJoke.innerText = `Joke from chuck norris Api: 
+    ${json.value}`;
+    $funblock.appendChild($chucknorissJoke);
+  });
+// --------------------
+const firstLoad = new Promise((resolve, reject) => {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://jsonplaceholder.typicode.com/users');
+  xhr.send()
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      resolve(JSON.parse(xhr.responseText))
+    }
+  }
+});
+
+firstLoad
+  .then((res) => {
+    res.forEach(item => {
+      catalog.push(personGenerator(item))
+    });
+    return catalog;
+  })
+
+
+$bascket.addEventListener('click', (e => {
+  const $backToCatalog = document.createElement('button');
+  $backToCatalog.className = 'btn btn-outline-info';
+  $backToCatalog.innerText = '⬅️';
+  $nav.appendChild($backToCatalog);
+  $backToCatalog.addEventListener('click', e => {
+    document.body.removeChild($modal);
+    document.body.appendChild($cardDesk);
+    $nav.removeChild($backToCatalog)
+  });
+
+  const $modal = document.createElement('div');
+  $modal.className = 'modal-dialog';
+
+  const $modalContent = document.createElement('div');
+  $modalContent.className = 'modal-content';
+  $modal.appendChild($modalContent);
+
+  const $modalHeader = document.createElement('div');
+  $modalHeader.className = 'modal-header';
+  $modalContent.appendChild($modalHeader);
+
+  const $modalTitle = document.createElement('h5');
+  $modalTitle.className = 'modal-title';
+  $modalTitle.innerText = `Your Bascket\n`;
+  $modalHeader.appendChild($modalTitle)
+
+  const $buttonAdd = document.createElement('button')
+  $buttonAdd.className = 'btn btn-outline-info';
+  $buttonAdd.innerText = "🧺"
+  $modalTitle.appendChild($buttonAdd);
+
+  $buttonAdd.addEventListener('click', (e) => {
+    for (let item of document.getElementsByClassName('btn btn-danger')) {
+      item.setAttribute('disabled', 'disabled');
+    }
+    $modalTitle.appendChild(makeAnOrderForm(basket))
+  })
+
+
+  const $modalBody = document.createElement('h5');
+  $modalBody.className = 'modal-title';
+  $modalContent.appendChild($modalBody);
+
+  basket.forEach(item => {
+    cardRender(item, $modalContent);
+  })
+
+  document.body.removeChild($cardDesk)
+  document.body.appendChild($modal)
+}));

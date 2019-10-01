@@ -1,0 +1,11 @@
+<div class='main'>
+    <div>
+        <app-todo-pannel (saveNewTask)="saveNewTask($event)" [tasksTags]='todosList'></app-todo-pannel>
+    </div>
+    <div>
+        <app-todo-item [tasks]='todosList'></app-todo-item>
+    </div>
+    <div>
+         HERE wil be search bar
+    </div>
+</div>

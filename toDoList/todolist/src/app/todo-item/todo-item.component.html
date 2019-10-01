@@ -1,0 +1,17 @@
+<div *ngFor='let task of tasks'>
+    <div class='card {{task.name}}'>
+        <div><strong>Task: {{task.name}}</strong></div>
+        <input *ngIf="task.edit && task.status === false" value='{{task.name}}' [formControl]="taskName">
+        <hr>
+        <div>Info: {{task.description}}</div>
+        <input *ngIf="task.edit && task.status === false" value='{{task.description}}' [formControl]="taskDescription">
+        <div>Status: {{task.status ? '🏁' : '🚩'}}</div>
+        <div *ngIf="task.status === false">
+            <button class='switch-task' (click)='switchStatus(task)'>Make it Done</button>
+            <button *ngIf="task.edit; else editFalse" class='edit' (click)='saveTask(task)'>Save</button>
+            <ng-template #editFalse>
+                <button class='edit' (click)='editTask(task)'>Edit task</button>
+            </ng-template>
+        </div>
+    </div>
+</div>

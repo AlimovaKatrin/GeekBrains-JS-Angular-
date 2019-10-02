@@ -1,0 +1,8 @@
+<form class='addTask' [formGroup]="newTaskForm">
+    You can add new task
+    <hr>
+    Task name: <input formControlName="name">
+    Description: <input formControlName="description">
+    Add Tag:<input formControlName="tags">
+    <button (click)='onClick(newTaskForm)'>Save</button>
+</form>

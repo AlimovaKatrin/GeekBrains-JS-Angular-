@@ -1,0 +1,26 @@
+.addTask{
+    display: inline-block;
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin: 5px;
+    padding: 10px;
+    background-color: lightgreen
+}
+
+input{
+    border-radius: 5px;
+    margin: 5px;
+}
+
+button{ 
+    margin: 5px;
+    border-radius: 5px;
+    background-color: rgb(252, 252, 90);
+}
+
+select{
+    margin: 5px;
+    border-radius: 5px;
+    background-color: lightsalmon; 
+}

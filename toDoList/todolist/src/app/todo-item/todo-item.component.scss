@@ -1,0 +1,26 @@
+.card{
+    display: inline-block;
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin: 5px;
+    padding: 10px;
+}
+.done{
+    background-color: lightgreen
+}
+button{ 
+    margin: 5px;
+    border-radius: 5px;
+}
+.switch-task{
+background-color: rgb(142, 231, 130);
+}
+
+.edit{
+background-color: rgb(252, 252, 90);
+}
+
+.input{
+width: 500px
+}

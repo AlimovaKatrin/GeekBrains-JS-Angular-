@@ -15,7 +15,9 @@ export class TodoListComponent implements OnInit {
   }
 
   saveNewTask(e) {
+    
     let newTask = {
+      id:this.todosList[this.todosList.length-1].id+1,
       name: e.name,
       description: e.description,
       tags: e.tags,

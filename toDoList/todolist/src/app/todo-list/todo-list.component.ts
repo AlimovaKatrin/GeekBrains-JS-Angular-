@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { todosList } from '../todos';
+import { ApiService } from '../services/api-service.service';
+
+import { Task } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-todo-list',
@@ -7,17 +9,20 @@ import { todosList } from '../todos';
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit {
-  public todosList = todosList;
-  constructor() { }
+  public todosList;
+
+  constructor(public rest: ApiService) { }
 
   ngOnInit() {
-
+    this.rest.getTodos()
+    .subscribe((e:Task[]) => {
+      this.todosList = e
+    })
   }
 
   saveNewTask(e) {
-    
     let newTask = {
-      id:this.todosList[this.todosList.length-1].id+1,
+      id: this.todosList[this.todosList.length - 1].id + 1,
       name: e.name,
       description: e.description,
       tags: e.tags,

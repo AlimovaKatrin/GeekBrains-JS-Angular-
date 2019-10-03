@@ -1,5 +1,6 @@
 export const todosList = [
     {
+        id:1,
         name: 'Pay Bills',
         description: 'go to bank till 18:00',
         tags: 'finance',
@@ -7,6 +8,7 @@ export const todosList = [
         edit: false
     },
     {
+        id:2,
         name: 'Call grandMother',
         description: 'call grandma and ask about village',
         tags: 'family',
@@ -14,6 +16,7 @@ export const todosList = [
         edit: false
     },
     {
+        id:3,
         name: 'Feed cat',
         description: 'feed pet with wet food',
         tags: 'petcare',

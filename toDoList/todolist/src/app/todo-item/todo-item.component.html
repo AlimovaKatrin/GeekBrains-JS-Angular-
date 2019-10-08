@@ -1,6 +1,6 @@
 <div *ngFor='let task of tasks'>
     <div class='card {{task.name}}'>
-        <div><strong><a href="/task/{{task.name}}/{{task.description}}/show">Task:
+        <div><strong><a href="/task/{{task.id}}">Task:
                     {{task.name}}</a></strong></div>
         <input *ngIf="task.edit && task.status === false" value='{{task.name}}' [formControl]="taskName">
         <hr>

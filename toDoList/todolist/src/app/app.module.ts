@@ -9,7 +9,7 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
 
 const appRoutes = [
   { path: '', component: TodoListComponent },
-  { path: 'task/:name/:description/:status', component: TodoItemComponent }
+  { path: 'task/:id', component: TodoListComponent }
 ]
 
 @NgModule({

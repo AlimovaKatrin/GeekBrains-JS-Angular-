@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-todo-item',
@@ -14,15 +13,10 @@ export class TodoItemComponent implements OnInit {
   taskName = new FormControl('');
   taskDescription = new FormControl('')
 
-  constructor(private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit() {
-    let oneTask = []
 
-    if (!this.tasks) {
-      oneTask.push(this.route.snapshot.paramMap.params)
-      this.tasks = oneTask
-    }
   }
 
   switchStatus(e) {

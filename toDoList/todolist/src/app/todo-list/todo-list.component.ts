@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api-service.service';
+import { TaskService } from '../services/task.service';
+import { ActivatedRoute } from '@angular/router';
 
 import { Task } from '../interfaces/interfaces';
 
@@ -9,16 +10,25 @@ import { Task } from '../interfaces/interfaces';
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit {
-  public todosList;
+  public todosList = [];
 
-  constructor(public rest: ApiService) { }
+  constructor(public rest: TaskService, public route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.rest.getTodos()
-    .subscribe((e:Task[]) => {
-      this.todosList = e
-    })
+    if (this.route.snapshot.paramMap.params.id) {
+      this.rest.get('tasks', this.route.snapshot.paramMap.params.id)
+        .subscribe((e: Task) => {
+          this.todosList.push(e)
+        })
+
+    } else {
+      this.rest.getAll()
+        .subscribe((e: Task[]) => {
+          this.todosList = e
+        })
+    }
   }
+
 
   saveNewTask(e) {
     let newTask = {

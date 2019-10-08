@@ -16,6 +16,7 @@ export interface GenericService<T>{
 
 
 export class ApiService {
+
   static endpoint = 'http://localhost:3000';
 
   constructor(public http: HttpClient) { }
@@ -28,7 +29,7 @@ export class ApiService {
     return this.http.get(`${ApiService.endpoint}/${path}/${id}`)
   };
 
-  // create(path:string,item:object):Observable<object>{
-  //   return this.http.get(`${ApiService.endpoint}/${path}`,item)
-  // };
+  create(path:string,item:object):Observable<object>{
+    return this.http.post(`${ApiService.endpoint}/${path}`,item)
+  };
 }

@@ -17,4 +17,7 @@ export class TaskService implements GenericService<any>{
   get(path:string,id:string):Observable<object>{
     return this.api.get(path,id)
   }
+  create(path,item){
+    return this.api.create(path,item)
+  }
 }

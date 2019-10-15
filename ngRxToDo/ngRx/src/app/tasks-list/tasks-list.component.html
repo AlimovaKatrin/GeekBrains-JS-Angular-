@@ -1,0 +1,13 @@
+<p>List of Tasks</p>
+<ul>
+    <li *ngFor = "let task of tasks">
+      <a [routerLink] = "'/tasks/' + task.id">{{task.title}}</a>
+      <span [ngSwitch] = "task.status">
+         <span *ngSwitchCase = "0">Не готово:(</span>
+         <span *ngSwitchCase = "1">Готово(:</span>
+         <span *ngSwitchCase = "2">Сделаю попозже\:</span>
+      </span>
+    </li>
+  </ul>
+  <div *ngIf = "!tasks || !tasks.length"> Отдыхай, сегодня без задач!</div>
+<button class = "btn btn-success" [routerLink]="['/tasks/create']">Create new task</button>

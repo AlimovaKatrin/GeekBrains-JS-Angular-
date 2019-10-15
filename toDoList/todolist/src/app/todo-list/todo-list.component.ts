@@ -11,16 +11,16 @@ import { Task } from '../interfaces/interfaces';
 })
 export class TodoListComponent implements OnInit {
   public todosList = [];
+  public newTodolist = [];
 
   constructor(public rest: TaskService, public route: ActivatedRoute) { }
 
   ngOnInit() {
-    if (this.route.snapshot.paramMap.params.id) {
-      this.rest.get('tasks', this.route.snapshot.paramMap.params.id)
+    if (this.route.snapshot.params.id) {
+      this.rest.get('tasks', this.route.snapshot.params.id)
         .subscribe((e: Task) => {
           this.todosList.push(e)
         })
-
     } else {
       this.rest.getAll()
         .subscribe((e: Task[]) => {
@@ -29,9 +29,19 @@ export class TodoListComponent implements OnInit {
     }
   }
 
+  // ngDoCheck() {
+  //   this.rest.getAll()
+  //     .subscribe((e: Task[]) => {
+  //       console.log('i m working')
+  //       this.newTodolist = e
+  //     })
+  //   if (this.newTodolist != this.todosList) {
+
+  //   }
+
+  // }
 
   saveNewTask(e) {
-
     let newTask = {
       "id": this.todosList[this.todosList.length - 1].id + 1,
       "name": e.name,
@@ -40,7 +50,7 @@ export class TodoListComponent implements OnInit {
       "status": false,
       "edit": false
     };
-  
+    this.todosList.push(newTask);
     this.rest.create('tasks', newTask)
       .subscribe((e: Task) => {
         console.log(e)

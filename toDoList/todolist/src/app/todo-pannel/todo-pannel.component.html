@@ -1,8 +1,11 @@
 <form class='addTask' [formGroup]="newTaskForm">
     You can add new task
     <hr>
-    Task name: <input formControlName="name">
-    Description: <input formControlName="description">
+    Task name: <input formControlName="name" required>
+    <div *ngIf = "(newTaskForm.controls['name'].touched || newTaskForm.controls['name'].dirty) && newTaskForm.controls['title'].errors?.required">
+        Поле обязательно для заполнения
+      </div>
+    Description: <input formControlName="description" required>
     Add Tag:<input formControlName="tags">
     <button (click)='onClick(newTaskForm)'>Save</button>
 </form>

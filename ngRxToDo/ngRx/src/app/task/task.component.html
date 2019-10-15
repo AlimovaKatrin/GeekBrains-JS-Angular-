@@ -1,0 +1,13 @@
+<div *ngIf = "task">
+  <h1>{{task.title}}</h1>
+  <h2 [ngSwitch] = "task.status">
+    <span *ngSwitchCase = "0">Не готово:(</span>
+      <span *ngSwitchCase = "1">Готово(:</span>
+      <span *ngSwitchCase = "2">Сделаю попозже\:</span>
+  </h2>
+</div>
+
+<button class="button  btn btn-danger" (click) = "onDelete(id)">Удалить</button>
+
+<button class="button btn btn-warning" (click) = "onUpdate()">Редактировать</button>
+

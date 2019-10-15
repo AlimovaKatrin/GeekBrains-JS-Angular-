@@ -1,0 +1,10 @@
+<form [formGroup]="taskForm" (submit) = "onCreate()">
+  <input type = "text" formControlName="title">
+  <div *ngIf = "(taskForm.controls['title'].touched || taskForm.controls['title'].dirty) && taskForm.controls['title'].errors?.required">
+    Поле обязательно для заполнения
+  </div>
+  <div *ngIf = "(taskForm.controls['title'].touched || taskForm.controls['title'].dirty) && taskForm.controls['title'].errors?.minlength">
+      Длина меньше минимальной
+  </div>
+  <button [disabled]= "!taskForm.valid" (click)="onCreate()" class="btn btn-outline-success">Create new task</button>
+</form>
